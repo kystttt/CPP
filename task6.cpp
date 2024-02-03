@@ -14,7 +14,7 @@ int linesum(int** array, int n, int m) {	//считает сумму строк�
 }
 
 
- int isPrime(int sumline) { //проверяет является ли сумма строки простым числом
+bool isPrime(int sumline) { //проверяет является ли сумма строки простым числом
 	int temp = sqrt(sumline);
 	int counter = 0;
 	for (int i = 1; i <= temp; i++) {
@@ -28,22 +28,15 @@ int linesum(int** array, int n, int m) {	//считает сумму строк�
 	return false;
 }
 
- int mxinl(int** array, int n, int m) { //находит максимальный элемент строки матрицы
-	 int mx = -1000;
-	 for (int i = 0; i < m; i++) {
-		 mx = max(array[n][i], mx);
-	 }
-	 return mx;
- }
+int mxinl(int** array, int n, int m) { //находит максимальный элемент строки матрицы
+	int mx = -1000;
+	for (int i = 0; i < m; i++) {
+		mx = max(array[n][i], mx);
+	}
+	return mx;
+}
 
 
- /*void nsort(int** array, int n, int m) {
-	 for (int i = 0; i < n; i++) {
-		 for (int j = 0; j < m; j++) {
-			 swap(array[i][j], array[i + 1][j]);
-		 }
-	 }
- }*/
 
 
 int main() {
@@ -65,30 +58,21 @@ int main() {
 		}
 	}
 
-/*
-	for (int i = 0; i < n; i++) {
-		int tmp = linesum(matrix, i, m); //создаем и инициализируем переменную, в которой будем записана сумма i-й строки 
-		if (isPrime(tmp) != 0) {//проверяем ложно ли это условие
+	int* array = new int[n];
+	int kok = 0;
 
-
-
+	for (int p = 0; p < n; p++) {
+		int tmp = linesum(matrix, p, m); //создаем и инициализируем переменную, в которой будет записана сумма i-й строки
+		if (isPrime(tmp) != 0) { //проверяем является ли сумма всех элементов строки простым числом
+			array[kok++] = p;
 		}
+	}
 
 
-
-
-
-	}*/
-
-
-	for (int i = 0; i < n - 1; i++) {
-		int tmp = linesum(matrix, i, m);
-		if (isPrime(tmp) == 0) {
-			cout << "xyi" << endl;
-		}
-		else {
-			if (mxinl(matrix, i, m) < mxinl(matrix, i+1, m)) {
-				swap(matrix[i], matrix[i+1]);
+	for (int k = 0; k < kok ; k++) {
+		for (int i = 0; i < kok - 1; i++) {
+			if (mxinl(matrix, array[i], m) < mxinl(matrix, array[i+1], m)) {
+				swap(matrix[array[i]], matrix[array[i + 1]]);
 			}
 		}
 	}
@@ -98,21 +82,23 @@ int main() {
 
 
 
+
+
+
+
 	//выводим матрицу в консоль
-	cout << "--------------------------------------" << endl;
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < m; j++) {
-			cout << matrix[i][j] << " ";
-		}
-		cout << endl;
-	}
 	cout << "--------------------------" << endl;
-	for (int i = 0; i < n; i++) {
-		cout << linesum(matrix, i, m) << endl;
+	if (kok != 0) {
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < m; j++) {
+				cout << matrix[i][j] << " ";
+			}
+			cout << endl;
+		}
+		cout << "--------------------------" << endl;
 	}
-	cout << "-----------------------" << endl;
-	for (int i = 0; i < n; i++) {
-		cout << mxinl(matrix, i, m) << endl;
+	else {
+		cout << "Undefiend" << endl;
 	}
 
 	return 0;
